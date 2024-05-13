@@ -175,7 +175,41 @@ def patienceSorting(arr):
 
 	return ans
 #-----------------------------------------------------
+#-----------------------------
+#shell sort
 
+def shellSort(arr):
+	n = len(arr)
+	
+    # code here
+	gap=n//2
+     
+     
+	while gap>0:
+		j=gap
+        # Check the array in from left to right
+        # Till the last possible index of j
+		while j<n:
+			i=j-gap # This will keep help in maintain gap value
+             
+			while i>=0:
+                # If value on right side is already greater than left side value
+                # We don't do swap else we swap
+				if arr[i+gap]>arr[i]:
+ 
+					break
+				else:
+					arr[i+gap],arr[i]=arr[i],arr[i+gap]
+ 
+				i=i-gap # To check left side also
+                            # If the element present is greater than current element 
+			j+=1
+		gap=gap//2
+	return arr
+
+
+
+#==================================
 
 
 
@@ -336,7 +370,42 @@ def timSortPatience(arr):
 
         size = 2 * size 
 
+def timSortShell(arr): 
+	n = len(arr) 
+	minRun = calcMinRun(n) 
+	# Sort individual subarrays of size RUN 
 
+	for start in range(0, n, minRun):
+		end = min(start + minRun - 1, n - 1) 
+        
+		tempArr = shellSort(arr[start:end+1])
+		
+		arr[start:end+1] = tempArr
+        
+        
+
+	# Start merging from size RUN (or 32). It will merge 
+	# to form size 64, then 128, 256 and so on .... 
+	size = minRun 
+	while size < n: 
+
+		# Pick starting point of left sub array. We 
+		# are going to merge arr[left..left+size-1] 
+		# and arr[left+size, left+2*size-1] 
+		# After every merge, we increase left by 2*size 
+		for left in range(0, n, 2 * size): 
+
+			# Find ending point of left sub array 
+			# mid+1 is starting point of right sub array 
+			mid = min(n - 1, left + size - 1) 
+			right = min((left + 2 * size - 1), (n - 1)) 
+
+			# Merge sub array arr[left.....mid] & 
+			# arr[mid+1....right] 
+			if mid < right: 
+				merge(arr, left, mid, right) 
+
+		size = 2 * size 
 
 # Driver program to test above function 
 # if __name__ == "__main__": 
